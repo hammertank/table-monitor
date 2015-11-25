@@ -9,12 +9,17 @@ Suppose there is a table named `user_count` which is updated everyday.
     1  | 1000  | 20150101
     2  | 981   | 20150102
     3  | 1012  | 20150103
-You want to noticed when `user_count.count` is less than 1000 or more than one record is inserted into table in one day.  
+You want to be noticed when:
+
+- `user_count.count` is less than 1000 
+- Or more than one record is inserted into table in one day.
+  
 This can be done following these steps:
 
-1. Create a `Topic` to stroe the `monitor items` and the `check rules`.  
-`monitor items` consist of `<name,SQL>` pairs. SQL may contain some EL expressions. Each SQL's select result is an array of rows.  
-`check rules` consist of EL expressions and can access each `monitor item`'s result with item's name in EL expression. Each `check rule` should return true or false after evaluation.
+1. Create a `Topic` with `monitor items` and `check rules`.  
+A `monitor item` is a `<name,SQL>` pair. SQL may contain some EL expressions. Each SQL's select result is a `List` of `Map<String,?>`.  
+A `check rule` is an EL expression and can access each `monitor item`'s result with item's name in EL expression.  
+A `check rule` should return true or false after evaluation.
 
         /** monitor items */
         Map<String, String> items = new HashMap<String, String>();
@@ -26,7 +31,7 @@ This can be done following these steps:
 
 		Topic t = new Topic(1L, "test", "", items, thresholds);
 
-2. Implement `Callback` interface to process `monitor items` and `check rules` results.  
+2. Implement `Callback` interface to process `monitor item` results, `<item_name, result>` pairs, and `check rule` results, `<expr, result>` pairs.  
 `Callback` implementation should be general-purposed. Implementing a `Callback` for every `Topic` object is against the purpose of this project.  
 Here, I just print all results when at least one `check rule` are not satisfied.  
 
@@ -64,7 +69,7 @@ Here, I just print all results when at least one `check rule` are not satisfied.
 
 		TopicChecker tc = new TopicChecker(t, c.getTime(), callback);
 
-3. Put `TopicChecker` into a `DelayQueue<TopicChecker>` and wait `TopicChecker` to be executed.
+4. Put `TopicChecker` into a `DelayQueue<TopicChecker>` and wait `TopicChecker` to be executed.
 
 		ScheduleService scheduleService = Services.get().get(ScheduleService.class);
 
@@ -72,8 +77,9 @@ Here, I just print all results when at least one `check rule` are not satisfied.
    
 ## Notes
 
-1. This project is just a demo and not well tested. Feel free to use it.
-2. Service creating `TopicCheckers` periodically has not been implemented yet. In order to create `TopicChecker` in a fixed rate, you need to implement a schedule service yourself.
+1. Complete code of the example is in `my.tablemonitor.Boot`
+2. This project is just a demo and not well tested. Feel free to use it.
+3. Service creating `TopicCheckers` periodically has not been implemented yet. In order to create `TopicChecker` in a fixed rate, you need to implement a schedule service yourself.
 
 
 
