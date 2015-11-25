@@ -33,7 +33,7 @@ A `check rule` should return true or false after evaluation.
 
 2. Implement `Callback` interface to process `monitor item` results, `<item_name, result>` pairs, and `check rule` results, `<expr, result>` pairs.  
 `Callback` implementation should be general-purposed. Implementing a `Callback` for every `Topic` object is against the purpose of this project.  
-Here, I just print all results when at least one `check rule` are not satisfied.  
+Here, I just print all results when at least one `check rule` is not satisfied.  
 
 		Callback callback = new Callback() {
 
