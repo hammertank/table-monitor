@@ -1,4 +1,4 @@
-package com.melot.tablemonitor.topic;
+package my.tablemonitor.topic;
 
 import java.sql.Timestamp;
 import java.util.List;

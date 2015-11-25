@@ -1,4 +1,4 @@
-package com.melot.tablemonitor.service;
+package my.tablemonitor.service;
 
 import java.io.IOException;
 import java.util.HashMap;

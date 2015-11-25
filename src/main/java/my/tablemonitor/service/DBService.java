@@ -1,18 +1,15 @@
-package com.melot.tablemonitor.service;
+package my.tablemonitor.service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import com.melot.tablemonitor.topic.CheckResult;
 
 public class DBService implements Service {
 
@@ -31,13 +28,9 @@ public class DBService implements Service {
 
 		@Select("${sql}")
 		List<Map<String, ?>> executeSQL(SqlWrapper sql);
-
-		// TODO
-		@Insert("insert into check_result (topic_name, pass, items_result, thresholds_result, target_date) values (#{topic})")
-		int saveCheckResult(CheckResult cr);
 	}
 
-	public interface Query<T> {
+	private interface Query<T> {
 		T execute(DBMapper mapper);
 	}
 
@@ -69,23 +62,6 @@ public class DBService implements Service {
 		};
 
 		return execute(q);
-	}
-
-	// TODO
-	public int saveCheckResult(final CheckResult cr) {
-		// Query<Integer> q = new Query<Integer>() {
-		// @Override
-		// public Integer execute(DBMapper mapper) {
-		// return mapper.saveCheckResult(cr);
-		// }
-		//
-		// };
-		//
-		// return execute(q);
-		System.out.println(cr.getPass());
-		System.out.println(cr.getItemsResult());
-		System.out.println(cr.getThresholdResult());
-		return 0;
 	}
 
 	private <T> T execute(Query<T> q) {

@@ -1,11 +1,11 @@
-package com.melot.tablemonitor.service;
+package my.tablemonitor.service;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import com.melot.tablemonitor.topic.TopicChecker;
+import my.tablemonitor.topic.TopicChecker;
 
 public class ScheduleService implements Service {
 
