@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import my.tablemonitor.service.ScheduleService;
+import my.tablemonitor.service.TopicCheckerService;
 import my.tablemonitor.service.Services;
 import my.tablemonitor.topic.Callback;
 import my.tablemonitor.topic.Topic;
@@ -55,8 +55,8 @@ public class Boot {
 		};
 
 		TopicChecker tc = new TopicChecker(t, c.getTime(), callback);
-		ScheduleService scheduleService = Services.get().get(ScheduleService.class);
+		TopicCheckerService tcService = Services.get().get(TopicCheckerService.class);
 
-		scheduleService.queue(tc);
+		tcService.queue(tc);
 	}
 }

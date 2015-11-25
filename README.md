@@ -71,9 +71,9 @@ Here, I just print all results when at least one `check rule` are not satisfied.
 
 4. Put `TopicChecker` into a `DelayQueue<TopicChecker>` and wait `TopicChecker` to be executed.
 
-		ScheduleService scheduleService = Services.get().get(ScheduleService.class);
+		TopicCheckerService tcService = Services.get().get(TopicCheckerService.class);
 
-		scheduleService.queue(tc);
+		tcService.queue(tc);
    
 ## Notes
 

@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import my.tablemonitor.topic.TopicChecker;
 
-public class ScheduleService implements Service {
+public class TopicCheckerService implements Service {
 
 	private final DelayQueue<TopicChecker> queue = new DelayQueue<TopicChecker>();
 

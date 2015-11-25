@@ -23,7 +23,7 @@ public class Services {
 	private Services() throws Exception {
 		try {
 			services.put(DBService.class, new DBService());
-			services.put(ScheduleService.class, new ScheduleService());
+			services.put(TopicCheckerService.class, new TopicCheckerService());
 		} catch (IOException e) {
 			throw new Exception("Error occurred when construct instance of Services.", e);
 		}
