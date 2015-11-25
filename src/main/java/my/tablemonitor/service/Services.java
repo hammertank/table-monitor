@@ -8,6 +8,15 @@ public class Services {
 
 	private static Services SERVICES;
 
+	static {
+		try {
+			SERVICES = new Services();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
 	@SuppressWarnings("rawtypes")
 	private Map<Class, Service> services = new HashMap<Class, Service>();
 
@@ -16,21 +25,10 @@ public class Services {
 			services.put(DBService.class, new DBService());
 			services.put(ScheduleService.class, new ScheduleService());
 		} catch (IOException e) {
-			throw new Exception(
-					"Error occurred when construct instance of Services.", e);
+			throw new Exception("Error occurred when construct instance of Services.", e);
 		}
 	}
 
-	public static void init() throws Exception {
-		if (SERVICES == null) {
-			synchronized (Services.class) {
-				if (SERVICES == null) {
-					SERVICES = new Services();
-				}
-			}
-		}
-	}
-	
 	public static Services get() {
 		return SERVICES;
 	}

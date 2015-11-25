@@ -15,7 +15,6 @@ import my.tablemonitor.topic.TopicChecker;
 
 public class Boot {
 	public static void main(String[] args) throws Exception {
-		Services.init();
 
 		Map<String, String> items = new HashMap<String, String>();
 		items.put("test",
