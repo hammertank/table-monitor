@@ -140,9 +140,4 @@ public class TopicChecker implements Runnable, Delayed {
 			context.setVariable(entry.getKey(), entry.getValue());
 		}
 	}
-	
-	public static void main(String[] args) throws Exception {
-		ELEvaluator e = new ELEvaluator();
-		System.out.println(e.evaluate("${0 == 1}", Boolean.class));
-	}
 }
