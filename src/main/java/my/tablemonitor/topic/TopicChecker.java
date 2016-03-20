@@ -1,6 +1,5 @@
 package my.tablemonitor.topic;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +14,12 @@ import org.apache.oozie.util.ELEvaluator.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import my.tablemonitor.Services;
 import my.tablemonitor.service.DBService;
-import my.tablemonitor.service.Services;
 
 public class TopicChecker implements Runnable, Delayed {
 
-	private static final Logger log = LoggerFactory.getLogger(TopicChecker.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TopicChecker.class);
 
 	private long nominalTime;
 
@@ -30,9 +29,9 @@ public class TopicChecker implements Runnable, Delayed {
 
 	private DBService dbService = Services.get().get(DBService.class);
 
-	private Map<String, List<Map<String, ?>>> checkItemsResult;
+	private Map<String, List<Map<String, ?>>> sqlQueryResults;
 
-	private Map<String, Boolean> checkThresholdsResult;
+	private Map<String, Boolean> checkThresholdResults;
 
 	private Callback callback;
 
@@ -63,18 +62,19 @@ public class TopicChecker implements Runnable, Delayed {
 	public void run() {
 		try {
 			initEvaluator();
-			checkItemsResult = checkItems();
+			sqlQueryResults = doSqlQueries();
 			updateEvaluator();
-			checkThresholdsResult = checkThresholds();
-			callback.call(checkItemsResult, checkThresholdsResult);;
+			checkThresholdResults = checkThresholds();
+			callback.call(sqlQueryResults, checkThresholdResults);
+			;
 		} catch (Exception e) {
-			log.error("Error occurred when check topic[" + topic.getName() + "].", e);
+			LOG.error("Error occurred when run topic[" + topic.getName() + "].", e);
 		}
 	}
 
-	private Map<String, List<Map<String, ?>>> checkItems() throws Exception {
+	private Map<String, List<Map<String, ?>>> doSqlQueries() throws Exception {
 		Map<String, List<Map<String, ?>>> ret = new HashMap<String, List<Map<String, ?>>>();
-		for (Entry<String, String> entry : topic.getItems().entrySet()) {
+		for (Entry<String, String> entry : topic.getItemNameToSqlMap().entrySet()) {
 			String sql = evaluator.evaluate(entry.getValue(), String.class);
 			List<Map<String, ?>> result = dbService.executeSQL(sql);
 			ret.put(entry.getKey(), result);
@@ -91,7 +91,7 @@ public class TopicChecker implements Runnable, Delayed {
 			try {
 				result = evaluator.evaluate(expr, Boolean.class);
 			} catch (Exception e) {
-				log.warn("Error occurred when checkThresholds. topic=" + topic.getName() + " threshold=" + expr, e);
+				LOG.error("Error occurred when checkThresholds. topic=" + topic.getName() + " threshold=" + expr, e);
 
 			} finally {
 				ret.put(expr, result);
@@ -113,7 +113,7 @@ public class TopicChecker implements Runnable, Delayed {
 
 		Context context = evaluator.getContext();
 
-		for (Entry<String, List<Map<String, ?>>> entry : checkItemsResult.entrySet()) {
+		for (Entry<String, List<Map<String, ?>>> entry : sqlQueryResults.entrySet()) {
 			context.setVariable(entry.getKey(), entry.getValue());
 		}
 	}

@@ -7,15 +7,14 @@ public class Topic {
 	private long id;
 	private String name;
 	private String desc;
-	private Map<String, String> items;
+	private Map<String, String> itemNameToSqlMap;
 	private List<String> thresholds;
 
-	public Topic(long id, String name, String desc, Map<String, String> items,
-			List<String> thresholds) {
+	public Topic(long id, String name, String desc, Map<String, String> itemNameToSqlMap, List<String> thresholds) {
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
-		this.items = items;
+		this.itemNameToSqlMap = itemNameToSqlMap;
 		this.thresholds = thresholds;
 	}
 
@@ -43,12 +42,12 @@ public class Topic {
 		this.desc = desc;
 	}
 
-	public Map<String, String> getItems() {
-		return items;
+	public Map<String, String> getItemNameToSqlMap() {
+		return itemNameToSqlMap;
 	}
 
-	public void setItems(Map<String, String> items) {
-		this.items = items;
+	public void setItemNameToSqlMap(Map<String, String> items) {
+		this.itemNameToSqlMap = items;
 	}
 
 	public List<String> getThresholds() {

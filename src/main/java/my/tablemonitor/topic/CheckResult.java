@@ -8,8 +8,8 @@ public class CheckResult {
 
 	private String topicName;
 	private Boolean pass;
-	private Map<String, List<Map<String, ?>>> itemsResult;
-	private Map<String, Boolean> thresholdResult;
+	private Map<String, List<Map<String, ?>>> sqlQueryResults;
+	private Map<String, Boolean> checkThresholdResults;
 	private Timestamp timestamp;
 
 	public CheckResult(String tn, boolean p,
@@ -17,8 +17,8 @@ public class CheckResult {
 			Timestamp ts) {
 		topicName = tn;
 		pass = p;
-		itemsResult = ir;
-		thresholdResult = tr;
+		sqlQueryResults = ir;
+		checkThresholdResults = tr;
 		timestamp = ts;
 	}
 
@@ -38,20 +38,20 @@ public class CheckResult {
 		this.pass = pass;
 	}
 
-	public Map<String, List<Map<String, ?>>> getItemsResult() {
-		return itemsResult;
+	public Map<String, List<Map<String, ?>>> getSqlQueryResults() {
+		return sqlQueryResults;
 	}
 
-	public void setItemsResult(Map<String, List<Map<String, ?>>> itemsResult) {
-		this.itemsResult = itemsResult;
+	public void setSqlQueryResults(Map<String, List<Map<String, ?>>> itemsResult) {
+		this.sqlQueryResults = itemsResult;
 	}
 
-	public Map<String, Boolean> getThresholdResult() {
-		return thresholdResult;
+	public Map<String, Boolean> getCheckThresholdResult() {
+		return checkThresholdResults;
 	}
 
-	public void setThresholdResult(Map<String, Boolean> thresholdResult) {
-		this.thresholdResult = thresholdResult;
+	public void setCheckThresholdResult(Map<String, Boolean> thresholdResult) {
+		this.checkThresholdResults = thresholdResult;
 	}
 
 	public Timestamp getTimestamp() {

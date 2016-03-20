@@ -1,8 +1,12 @@
-package my.tablemonitor.service;
+package my.tablemonitor;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import my.tablemonitor.service.DBService;
+import my.tablemonitor.service.Service;
+import my.tablemonitor.service.TopicCheckerService;
 
 public class Services {
 

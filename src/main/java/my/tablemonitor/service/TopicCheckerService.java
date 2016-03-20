@@ -9,13 +9,11 @@ import my.tablemonitor.topic.TopicChecker;
 
 public class TopicCheckerService implements Service {
 
-	private final DelayQueue<TopicChecker> queue = new DelayQueue<TopicChecker>();
-
 	private int threads = 5;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(threads,
-			threads, 10, TimeUnit.SECONDS, (BlockingQueue) queue);
+	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(threads, threads, 10, TimeUnit.SECONDS,
+			(BlockingQueue) new DelayQueue<TopicChecker>());
 
 	public synchronized void queue(TopicChecker d) {
 		if (d == null) {

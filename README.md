@@ -22,14 +22,14 @@ A `check rule` is an EL expression and can access each `monitor item`'s result w
 A `check rule` should return true or false after evaluation.
 
         /** monitor items */
-        Map<String, String> items = new HashMap<String, String>();
-        items.put("item1","select count from user_count where date=${formatDate(nominalTime,'yyyyMMdd')");
-        items.put("item2","select count(*) as num from user_count where date=${formatDate(nominalTime,'yyyyMMdd')");
+        Map<String, String> itemNameToSqlMap = new HashMap<String, String>();
+        itemNameToSqlMap.put("item1","select count from user_count where date=${formatDate(nominalTime,'yyyyMMdd')");
+        itemNameToSqlMap.put("item2","select count(*) as num from user_count where date=${formatDate(nominalTime,'yyyyMMdd')");
         
 		/** check rules */
         List<String> thresholds = Arrays.asList("${item1[0].count >= 1000}", "${item2[0].num == 1}");
 
-		Topic t = new Topic(1L, "test", "", items, thresholds);
+		Topic t = new Topic(1L, "test", "", itemNameToSqlMap, thresholds);
 
 2. Implement `Callback` interface to process `monitor item` results, `<item_name, result>` pairs, and `check rule` results, `<expr, result>` pairs.  
 `Callback` implementation should be general-purposed. Implementing a `Callback` for every `Topic` object is against the purpose of this project.  
@@ -38,10 +38,10 @@ Here, I just print all results when at least one `check rule` is not satisfied.
 		Callback callback = new Callback() {
 
 			@Override
-			public void call(Map<String, List<Map<String, ?>>> checkItemsResult,
-					Map<String, Boolean> checkThresholdsResult) {
+			public void call(Map<String, List<Map<String, ?>>> sqlQueryResults,
+					Map<String, Boolean> checkThresholdResults) {
 				boolean pass = true;
-				for (boolean result : checkThresholdsResult.values()) {
+				for (boolean result : checkThresholdResults.values()) {
 					if (!result) {
 						pass = false;
 						break;
@@ -50,13 +50,13 @@ Here, I just print all results when at least one `check rule` is not satisfied.
 
 				if (!pass) {
 					System.out.println("checkItemsResult");
-					for(Entry<String, List<Map<String, ?>>> e : checkItemsResult.entrySet()) {
-						System.out.println("Item: " + e.getKey() +" Result: " + e.getValue());
+					for (Entry<String, List<Map<String, ?>>> e : sqlQueryResults.entrySet()) {
+						System.out.println("Item: " + e.getKey() + " Result: " + e.getValue());
 					}
-					
+
 					System.out.println("checkThresholdsResult");
-					for(Entry<String, Boolean> e : checkThresholdsResult.entrySet()) {
-						System.out.println("Expr: " + e.getKey() +" Result: " + e.getValue());
+					for (Entry<String, Boolean> e : checkThresholdResults.entrySet()) {
+						System.out.println("Expr: " + e.getKey() + " Result: " + e.getValue());
 					}
 				}
 			}
