@@ -1,4 +1,4 @@
-package my.tablemonitor.topic;
+package my.tablemonitor;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +14,6 @@ import org.apache.oozie.util.ELEvaluator.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import my.tablemonitor.Services;
 import my.tablemonitor.service.DBService;
 
 public class TopicChecker implements Runnable, Delayed {

@@ -1,4 +1,4 @@
-package my.tablemonitor.topic;
+package my.tablemonitor;
 
 import java.util.List;
 import java.util.Map;

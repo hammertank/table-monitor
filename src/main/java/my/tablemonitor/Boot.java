@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import my.tablemonitor.service.TopicCheckerService;
-import my.tablemonitor.topic.Callback;
-import my.tablemonitor.topic.Topic;
-import my.tablemonitor.topic.TopicChecker;
 
 public class Boot {
 	public static void main(String[] args) throws Exception {

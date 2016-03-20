@@ -5,7 +5,7 @@ import java.util.concurrent.DelayQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import my.tablemonitor.topic.TopicChecker;
+import my.tablemonitor.TopicChecker;
 
 public class TopicCheckerService implements Service {
 
